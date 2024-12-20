@@ -1,4 +1,4 @@
-import ApiGatewayHelper from "./ApiGatewayHelper"
+import ApiGatewayHelper from "./apiGatewayHelper"
 
 export {
   ApiGatewayHelper

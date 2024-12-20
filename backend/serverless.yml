@@ -7,6 +7,7 @@ package:
 
 custom:
   dev:
+    BASE_URL_API_SWAPI: "https://swapi.py4e.com"
     region: us-east-1
   esbuild:
     bundle: true
@@ -42,6 +43,7 @@ provider:
     shouldStartNameWithService: true
   environment:
     region: ${self:custom.${opt:stage}.region}
+    BASE_URL_API_SWAPI: ${self:custom.${opt:stage}.BASE_URL_API_SWAPI}
 
 layers:
   Merged:
@@ -51,6 +53,6 @@ layers:
       - nodejs20.x
 
 functions:
-  - ${file(./src/functions/GetMerged/index.yml)}
-  - ${file(./src/functions/PostMerged/index.yml)}
-  - ${file(./src/functions/GetHistory/index.yml)}
+  - ${file(./src/functions/getMerged/index.yml)}
+  - ${file(./src/functions/postMerged/index.yml)}
+  - ${file(./src/functions/getHistory/index.yml)}

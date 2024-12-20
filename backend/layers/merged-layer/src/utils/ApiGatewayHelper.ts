@@ -1,5 +1,7 @@
-import { IError } from "../interfaces"
-
+interface IError {
+  code: string
+  message: string
+}
 class ApiGatewayHelper {
   static response = function (body, statusCode) {
     return {
