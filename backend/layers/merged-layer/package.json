@@ -1,0 +1,15 @@
+{
+  "name": "merged-layers",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "postbuild": "yarn copy-package-w && cd dist/nodejs/node_modules/merged-layer && yarn install --production --frozen-lockfile",
+    "copy-package": "cp package.json dist/nodejs/node_modules/merged-layer/package.json",
+    "copy-package-w": "powershell -Command \"xcopy package.json .\\dist\\nodejs\\node_modules\\merged-layer\\package.json /F /Y\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

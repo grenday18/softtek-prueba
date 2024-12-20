@@ -1,0 +1,9 @@
+GetMerged:
+  name: get-merged-${opt:stage}
+  layers:
+    - { Ref: MergedLambdaLayer }
+  events:
+    - httpApi:
+        method: get
+        path: /api/v1/fusionados
+  handler: ./src/functions/GetMerged/handler.getMerged

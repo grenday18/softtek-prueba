@@ -1,0 +1,9 @@
+GetCheckStatus:
+  name: post-merged-${opt:stage}
+  layers:
+    - { Ref: MergedLambdaLayer }
+  events:
+    - httpApi:
+        method: post
+        path: /api/v1/almacenar
+  handler: ./src/functions/PostMerged/handler.postMerged

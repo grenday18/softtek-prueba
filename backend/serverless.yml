@@ -1,0 +1,56 @@
+service: "sofftek-aws-backend"
+
+frameworkVersion: "4"
+
+package:
+  individually: true
+
+custom:
+  dev:
+    region: us-east-1
+  esbuild:
+    bundle: true
+    minify: false
+    sourcemap: true
+    exclude: ["aws-sdk", "merged-layer"]
+    target: node20
+    watch:
+      ignore: ["layers"]
+    define:
+      require.resolve: undefined
+    platform: node
+    concurrency: 10
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  timeout: 30
+  httpApi:
+    cors:
+      allowedOrigins: "*"
+      allowedHeaders:
+        - Content-Type
+        - Authorization
+        - X-Auth-Token
+        - X-Data-Source
+      allowedMethods:
+        - OPTIONS
+        - GET
+      maxAge: 6000 # In seconds
+  apiGateway:
+    minimumCompressionSize: 1024
+    shouldStartNameWithService: true
+  environment:
+    region: ${self:custom.${opt:stage}.region}
+
+layers:
+  Merged:
+    path: layers/merged-layer/dist
+    description: "Layer for merged star wars and pokemon"
+    compatibleRuntimes:
+      - nodejs20.x
+
+functions:
+  - ${file(./src/functions/GetMerged/index.yml)}
+  - ${file(./src/functions/PostMerged/index.yml)}
+  - ${file(./src/functions/GetHistory/index.yml)}

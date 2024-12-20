@@ -1,0 +1,9 @@
+GetHistory:
+  name: get-history-${opt:stage}
+  layers:
+    - { Ref: MergedLambdaLayer }
+  events:
+    - httpApi:
+        method: get
+        path: /api/v1/historial
+  handler: ./src/functions/GetHistory/handler.getHistory
