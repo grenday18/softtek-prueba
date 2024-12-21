@@ -1,4 +1,6 @@
 import { SwPerson } from "../api/swApi"
+import { PokeMapper } from "../mapper"
+import PokemonModel from "./pokemonModel"
 
 export default class MergedModel {
 	name: string
@@ -6,6 +8,7 @@ export default class MergedModel {
   mass: string
 	gender: string
   homeworld: string
+	pokemons: PokemonModel[] = []
 
 	constructor(person: SwPerson) {
 		this.name = person.name
@@ -17,7 +20,17 @@ export default class MergedModel {
 		// obtener el nombre del planeta accediendo a la info
 	}
 
+	async getPokemons() {
+		if (this.pokemons.length === 0) {
+			const pokeMapper = new PokeMapper
+			this.pokemons = await pokeMapper.getPokemonsByCharacter(this.name)
+		}
+
+		return this.pokemons
+	}
+
 	async toReponse() : Promise<MergedModel> {
+		await this.getPokemons()
 		return this
 	}
 }

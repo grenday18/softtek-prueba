@@ -1,3 +1,4 @@
 import MergedMapper from "./mergedMapper"
+import PokeMapper from "./pokeMapper"
 
-export { MergedMapper }
+export { MergedMapper, PokeMapper }

@@ -1,13 +1,15 @@
 import { 
   ApiGatewayHelper
 } from "./utils"
-import { MergedMapper } from "./mapper"
+import { MergedMapper, PokeMapper } from "./mapper"
 import { SwApi } from "./api"
-import { MergedModel } from "./models"
+import { MergedModel, PokemonModel } from "./models"
 
 export {
   ApiGatewayHelper,
   SwApi,
   MergedMapper,
-  MergedModel
+  MergedModel,
+  PokeMapper,
+  PokemonModel
 }

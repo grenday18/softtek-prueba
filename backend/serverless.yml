@@ -8,6 +8,7 @@ package:
 custom:
   dev:
     BASE_URL_API_SWAPI: "https://swapi.py4e.com"
+    BASE_URL_API_POKEAPI: "https://pokeapi.co"
     region: us-east-1
   esbuild:
     bundle: true
@@ -44,6 +45,7 @@ provider:
   environment:
     region: ${self:custom.${opt:stage}.region}
     BASE_URL_API_SWAPI: ${self:custom.${opt:stage}.BASE_URL_API_SWAPI}
+    BASE_URL_API_POKEAPI: ${self:custom.${opt:stage}.BASE_URL_API_POKEAPI}
 
 layers:
   Merged:

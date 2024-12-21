@@ -1,2 +1,3 @@
 import MergedModel from "./mergedModel"
-export { MergedModel }
+import PokemonModel from "./pokemonModel"
+export { MergedModel, PokemonModel }

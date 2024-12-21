@@ -1,3 +1,9 @@
 import { SwApi, SwPerson} from "./swApi";
+import { PokeApi, Pokemon } from "./pokeApi";
 
-export { SwApi, SwPerson }
+export { 
+  SwApi, 
+  SwPerson, 
+  PokeApi, 
+  Pokemon
+}
