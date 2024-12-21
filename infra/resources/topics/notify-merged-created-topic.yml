@@ -1,0 +1,5 @@
+Resources:
+  NotifyMergedCreatedTopic:
+    Type: AWS::SNS::Topic
+    Properties: 
+      TopicName: notify-merged-created-${opt:stage}

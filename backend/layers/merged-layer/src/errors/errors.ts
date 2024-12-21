@@ -22,6 +22,12 @@ const errors = {
       code: "40404",
       message: "No communication with external service (pokeapi).",
       messageES: "Sin comunicación con servicio externo."
+    },
+    TRAINNER_NAME_IS_REQUIRED: {
+      httpStatusCode: 401,
+      code: "40101",
+      message: "TrainnerName is required.",
+      messageES: "El atributo trainnerName es obligatorio."
     }
   }
   

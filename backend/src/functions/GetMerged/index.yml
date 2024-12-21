@@ -2,8 +2,10 @@ GetMerged:
   name: get-merged-${opt:stage}
   layers:
     - { Ref: MergedLambdaLayer }
+  role:
+    Fn::ImportValue: ${self:custom.infra}-ListMergedsRole
   events:
     - httpApi:
         method: get
         path: /api/v1/fusionados
-  handler: ./src/functions/GetMerged/handler.getMerged
+  handler: ./src/functions/getMerged/handler.getMerged

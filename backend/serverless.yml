@@ -1,4 +1,4 @@
-service: "sofftek-aws-backend"
+service: "softtek-aws-backend"
 
 frameworkVersion: "4"
 
@@ -10,6 +10,9 @@ custom:
     BASE_URL_API_SWAPI: "https://swapi.py4e.com"
     BASE_URL_API_POKEAPI: "https://pokeapi.co"
     region: us-east-1
+    infraName: softtek-aws-infra-dev
+    MERGED_TABLE_NAME: "merged-list-dev"
+    POKEMON_TABLE_NAME: "pokemon-list-dev"
   esbuild:
     bundle: true
     minify: false
@@ -22,6 +25,7 @@ custom:
       require.resolve: undefined
     platform: node
     concurrency: 10
+  infra: ${self:custom.${opt:stage}.infraName}
 
 provider:
   name: aws
@@ -38,6 +42,7 @@ provider:
       allowedMethods:
         - OPTIONS
         - GET
+        - POST
       maxAge: 6000 # In seconds
   apiGateway:
     minimumCompressionSize: 1024
@@ -46,6 +51,8 @@ provider:
     region: ${self:custom.${opt:stage}.region}
     BASE_URL_API_SWAPI: ${self:custom.${opt:stage}.BASE_URL_API_SWAPI}
     BASE_URL_API_POKEAPI: ${self:custom.${opt:stage}.BASE_URL_API_POKEAPI}
+    MERGED_TABLE_NAME: ${self:custom.${opt:stage}.MERGED_TABLE_NAME}
+    POKEMON_TABLE_NAME: ${self:custom.${opt:stage}.POKEMON_TABLE_NAME}
 
 layers:
   Merged:

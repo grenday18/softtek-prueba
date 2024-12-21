@@ -10,7 +10,7 @@
     "dev": "serverless offline",
     "deploy:dev": "yarn install:merged-layer && serverless deploy --stage dev",
     "remove:dev": "serverless remove --stage dev",
-    "deploy:prod": "yarn install:merged-layer && serverless deploy --stage prod && yarn copy-urls:prod",
+    "deploy:prod": "yarn install:merged-layer && serverless deploy --stage prod",
     "remove:prod": "serverless remove --stage prod"
   },
   "devDependencies": {

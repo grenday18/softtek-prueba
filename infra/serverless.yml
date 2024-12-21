@@ -1,4 +1,4 @@
-service: "check-status-aws-infra"
+service: "softtek-aws-infra"
 frameworkVersion: "4"
 
 package:
@@ -7,6 +7,42 @@ package:
 provider:
   name: aws
   runtime: nodejs20.x
-  environment:
-    AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
-    NODE_OPTIONS: "--enable-source-maps --stack-trace-limit=1000"
+    
+custom:
+  mergedTableName: merged-list-${opt:stage}
+  pokemonTableName: pokemon-list-${opt:stage}
+
+resources:
+  # Tables
+  - ${file(resources/tables/merged-table.yml)}
+  - ${file(resources/tables/pokemon-table.yml)}
+  # Policies
+  - ${file(resources/managed-policies.yml)}
+  # Roles
+  - ${file(resources/roles/list-mergeds-role.yml)}
+  - ${file(resources/roles/create-merged-role.yml)}
+  # Topics
+  - ${file(resources/topics/notify-merged-created-topic.yml)}
+  - Outputs:
+      MergedTableName:
+        Value: ${self:custom.mergedTableName}
+        Export:
+          Name:
+            'Fn::Sub': ${AWS::StackName}-mergedTableName
+      PokemonTableName:
+        Value: ${self:custom.pokemonTableName}
+        Export:
+          Name:
+            'Fn::Sub': ${AWS::StackName}-pokemonTableName
+      ListMergedsRole:
+        Value:
+          Fn::GetAtt: [ ListMergedsRole, Arn ]
+        Export:
+          Name:
+            'Fn::Sub': ${AWS::StackName}-ListMergedsRole
+      CreateMergedRole:
+        Value:
+          Fn::GetAtt: [ CreateMergedRole, Arn ]
+        Export:
+          Name:
+            'Fn::Sub': ${AWS::StackName}-CreateMergedRole

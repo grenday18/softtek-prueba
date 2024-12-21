@@ -1,0 +1,93 @@
+Resources:
+  PutDynamoDB:
+    Type: 'AWS::IAM::ManagedPolicy'
+    Properties:
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+            Effect: Allow
+            Action:
+              - "dynamodb:PutItem"
+            Resource: '*'
+  QueryDynamoDB:
+    Type: 'AWS::IAM::ManagedPolicy'
+    Properties:
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+            Effect: Allow
+            Action:
+              - "dynamodb:Query"
+            Resource: '*'
+  GetItemDynamoDB:
+    Type: 'AWS::IAM::ManagedPolicy'
+    Properties:
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+            Effect: Allow
+            Action:
+              - "dynamodb:GetItem"
+            Resource: '*'
+  DeleteDynamoDB:
+    Type: 'AWS::IAM::ManagedPolicy'
+    Properties:
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+            Effect: Allow
+            Action:
+              - "dynamodb:DeleteItem"
+            Resource: '*'
+  UpdateItemDynamoDB:
+    Type: 'AWS::IAM::ManagedPolicy'
+    Properties:
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+            Effect: Allow
+            Action:
+              - "dynamodb:UpdateItem"
+            Resource: '*'
+  ScanDynamoDB:
+    Type: 'AWS::IAM::ManagedPolicy'
+    Properties:
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+            Effect: Allow
+            Action:
+              - "dynamodb:Scan"
+            Resource: '*'
+  LogsCloudWatch:
+    Type: 'AWS::IAM::ManagedPolicy'
+    Properties:
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+            Effect: Allow
+            Action:
+              - "logs:CreateLogStream"
+              - "logs:PutLogEvents"
+            Resource: '*'
+  BatchWriteDynamoDB:
+    Type: 'AWS::IAM::ManagedPolicy'
+    Properties:
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+            Effect: Allow
+            Action:
+              - "dynamodb:BatchWriteItem"
+            Resource: '*'
+  SnsPublish:
+    Type: 'AWS::IAM::ManagedPolicy'
+    Properties:
+      ManagedPolicyName: sns-publish-price-list-${opt:stage}
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+            Effect: Allow
+            Action:
+              - "sns:Publish"
+            Resource: '*'

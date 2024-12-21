@@ -3,7 +3,7 @@ import { PokemonModel } from "../models";
 
 class PokeMapper {
 	maxIdOfPokemon = 1010
-	maxCantOfPokemons = 6
+	maxCantOfPokemons = 1
 
 	constructor () {
 	}

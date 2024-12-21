@@ -1,0 +1,36 @@
+Resources:
+  PokemonTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: ${self:custom.pokemonTableName}
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+      AttributeDefinitions:
+        - AttributeName: name
+          AttributeType: "S"
+        - AttributeName: id
+          AttributeType: "N"
+        - AttributeName: trainner
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      GlobalSecondaryIndexes: 
+        - IndexName: Name-Index 
+          KeySchema:
+          - AttributeName: name
+            KeyType: HASH
+          - AttributeName: id
+            KeyType: RANGE
+          Projection: 
+            ProjectionType: ALL
+        - IndexName: Trainner-Index 
+          KeySchema:
+          - AttributeName: trainner
+            KeyType: HASH
+          - AttributeName: id
+            KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+      # Set the capacity to auto-scale
+      BillingMode: PAY_PER_REQUEST

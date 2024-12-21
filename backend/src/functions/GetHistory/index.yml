@@ -6,4 +6,4 @@ GetHistory:
     - httpApi:
         method: get
         path: /api/v1/historial
-  handler: ./src/functions/GetHistory/handler.getHistory
+  handler: ./src/functions/getHistory/handler.getHistory

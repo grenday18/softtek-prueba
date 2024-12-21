@@ -1,19 +1,20 @@
 import { SwPerson } from "../api/swApi"
 import { PokeMapper } from "../mapper"
+import { MergedRepository } from "../repository"
 import PokemonModel from "./pokemonModel"
 
 export default class MergedModel {
 	name: string
-  height: string
-  mass: string
 	gender: string
+  height: number
+  mass: number
   homeworld: string
 	pokemons: PokemonModel[] = []
 
 	constructor(person: SwPerson) {
 		this.name = person.name
-		this.height = person.height
-		this.mass = person.mass
+		this.height = parseFloat(person.height)
+		this.mass = parseFloat(person.mass)
 		this.gender = person.gender
 		this.homeworld = person.homeworld
 		// propuesta: calcular la edad, 
@@ -27,6 +28,21 @@ export default class MergedModel {
 		}
 
 		return this.pokemons
+	}
+
+	async save() {
+		const repo = new MergedRepository
+		await repo.save(this)
+
+		const dataPromises: Array<Promise<any>> = []
+		const pokemons = await this.getPokemons()
+
+    for (let i = 0; i < pokemons.length; i++) {
+			pokemons[i].trainnerName = this.name
+			dataPromises.push(pokemons[i].save())
+    }
+
+    await Promise.all(dataPromises)
 	}
 
 	async toReponse() : Promise<MergedModel> {

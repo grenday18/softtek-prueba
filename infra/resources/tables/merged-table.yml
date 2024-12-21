@@ -1,0 +1,26 @@
+Resources:
+  MergedTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: ${self:custom.mergedTableName}
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+      AttributeDefinitions:
+          - AttributeName: name
+            AttributeType: S
+          # - AttributeName: gender
+          #   AttributeType: S
+      KeySchema:
+        - AttributeName: name
+          KeyType: HASH
+      # GlobalSecondaryIndexes: 
+        # - IndexName: Name-Index
+        #   KeySchema:
+        #   - AttributeName: name
+        #     KeyType: HASH
+        #   - AttributeName: gender
+        #     KeyType: RANGE
+        #   Projection:
+        #     ProjectionType: ALL
+      # Set the capacity to auto-scale
+      BillingMode: PAY_PER_REQUEST
