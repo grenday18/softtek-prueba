@@ -4,6 +4,7 @@ import {
 import { MergedMapper, PokeMapper } from "./mapper"
 import { SwApi } from "./api"
 import { MergedModel, PokemonModel } from "./models"
+import { CreateMergedRequest } from "./request"
 
 export {
   ApiGatewayHelper,
@@ -11,5 +12,6 @@ export {
   MergedMapper,
   MergedModel,
   PokeMapper,
-  PokemonModel
+  PokemonModel,
+  CreateMergedRequest
 }

@@ -1,4 +1,3 @@
-import { SwPerson } from "../api/swApi"
 import { PokeMapper } from "../mapper"
 import { MergedRepository } from "../repository"
 import PokemonModel from "./pokemonModel"
@@ -10,12 +9,15 @@ export default class MergedModel {
   mass: number
   homeworld: string
 	pokemons: PokemonModel[] = []
+	isMigrated: boolean = false
 
-	constructor(person: SwPerson) {
+	// se usará any para poder usar multiples "objetos constructores"
+	// se recomienda utilizar un factory
+	constructor(person: any) {
 		this.name = person.name
+		this.gender = person.gender
 		this.height = parseFloat(person.height)
 		this.mass = parseFloat(person.mass)
-		this.gender = person.gender
 		this.homeworld = person.homeworld
 		// propuesta: calcular la edad, 
 		// obtener el nombre del planeta accediendo a la info

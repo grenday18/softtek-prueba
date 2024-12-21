@@ -39,7 +39,8 @@ class MergedRepository {
       height: mergedModel.height,
       mass: mergedModel.mass,
       homeworld: mergedModel.homeworld,
-      createdAt: moment().format("YYYY-MM-DD HH:mm:ss")
+      createdAt: moment().format("YYYY-MM-DD HH:mm:ss"),
+      isMigrated: false
     }
   }
 }

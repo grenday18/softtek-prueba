@@ -2,6 +2,8 @@ PostMerged:
   name: post-merged-${opt:stage}
   layers:
     - { Ref: MergedLambdaLayer }
+  role:
+    Fn::ImportValue: ${self:custom.infra}-CreateMergedRole
   events:
     - httpApi:
         method: post

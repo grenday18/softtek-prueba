@@ -10,6 +10,8 @@ class MergedMapper {
     // Si se obtiene desde apis, debemos guardar la info:
     const dataPromises: Array<Promise<any>> = []
     for (let i = 0; i < list.length; i++) {
+      list[i].isMigrated = true
+      // Al realizar el save, se obtienen los pokemons
       dataPromises.push(list[i].save())
     }
     
@@ -20,15 +22,7 @@ class MergedMapper {
   async getMergedListFromApis(page: number) : Promise<MergedModel[]> {
     const swApi = new SwApi()
     const persons = await swApi.getListSwPersons(page)
-
-    const dataPromises: Array<Promise<any>> = []
-    for (let i = 0; i < persons.length; i++) {
-      const person = new MergedModel(persons[i])
-      dataPromises.push(person.toReponse())
-    }
-
-    const data = await Promise.all(dataPromises)
-    return data
+    return persons.map(x => new MergedModel(x))
   }
 }
 

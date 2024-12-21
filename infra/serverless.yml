@@ -23,6 +23,7 @@ resources:
   - ${file(resources/roles/create-merged-role.yml)}
   # Topics
   - ${file(resources/topics/notify-merged-created-topic.yml)}
+  - ${file(resources/topics/notify-merged-searched-topic.yml)}
   - Outputs:
       MergedTableName:
         Value: ${self:custom.mergedTableName}
