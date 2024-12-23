@@ -1,6 +1,6 @@
 import ApiRequestValidator from "./apiRequestValidator"
 
-class createMergedRequest extends ApiRequestValidator {
+class CreateMergedRequest extends ApiRequestValidator {
   constructor(event: any) {
     super(event)
 
@@ -40,4 +40,4 @@ class createMergedRequest extends ApiRequestValidator {
   }
 }
 
-export default createMergedRequest
+export default CreateMergedRequest

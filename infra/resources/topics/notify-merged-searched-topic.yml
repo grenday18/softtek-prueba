@@ -1,5 +1,0 @@
-Resources:
-  NotifyMergedSearchedTopic:
-    Type: AWS::SNS::Topic
-    Properties: 
-      TopicName: notify-merged-searched-${opt:stage}

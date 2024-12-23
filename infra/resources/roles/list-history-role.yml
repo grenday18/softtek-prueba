@@ -1,5 +1,5 @@
 Resources:
-  ListMergedsRole:
+  ListHistoryRole:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
@@ -11,10 +11,7 @@ Resources:
                 - lambda.amazonaws.com
             Action:
               - 'sts:AssumeRole'
-      RoleName: list-mergeds-role-${opt:stage}
+      RoleName: list-history-role-${opt:stage}
       ManagedPolicyArns:
-        - { Ref: PutDynamoDB }
         - { Ref: QueryDynamoDB }
         - { Ref: LogsCloudWatch }
-        - { Ref: SnsPublish }
-

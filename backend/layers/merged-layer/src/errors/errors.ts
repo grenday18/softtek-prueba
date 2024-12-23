@@ -59,6 +59,12 @@ const errors = {
       message: "The field 'homeworld' must be a string with at least one character.",
       messageES: "El campo 'homeworld' debe ser un string con al menos un caracter."
     },
+    PAGE_ERROR: {
+      httpStatusCode: 400,
+      code: "40006",
+      message: "The field 'page' must be a integer.",
+      messageES: "El campo 'page' debe ser un entero."
+    },
   }
   
   const errorCodes = Object.values(errors).map(({ code }) => code)

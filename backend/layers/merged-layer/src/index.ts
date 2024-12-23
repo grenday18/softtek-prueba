@@ -3,8 +3,9 @@ import {
 } from "./utils"
 import { MergedMapper, PokeMapper } from "./mapper"
 import { SwApi } from "./api"
-import { MergedModel, PokemonModel } from "./models"
-import { CreateMergedRequest } from "./request"
+import { MergedModel, PokemonModel, HistoryModel } from "./models"
+import { CreateMergedRequest, ListMergedRequest, ListHistoryRequest } from "./request"
+import { HistoryRepository, RedisRepository } from "./repository"
 
 export {
   ApiGatewayHelper,
@@ -13,5 +14,10 @@ export {
   MergedModel,
   PokeMapper,
   PokemonModel,
-  CreateMergedRequest
+  HistoryModel,
+  CreateMergedRequest,
+  ListMergedRequest,
+  ListHistoryRequest,
+  HistoryRepository,
+  RedisRepository
 }

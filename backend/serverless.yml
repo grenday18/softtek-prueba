@@ -1,4 +1,4 @@
-service: "softtek-aws-backend"
+service: "softtek-backend"
 
 frameworkVersion: "4"
 
@@ -10,9 +10,7 @@ custom:
     BASE_URL_API_SWAPI: "https://swapi.py4e.com"
     BASE_URL_API_POKEAPI: "https://pokeapi.co"
     region: us-east-1
-    infraName: softtek-aws-infra-dev
-    MERGED_TABLE_NAME: "merged-list-dev"
-    POKEMON_TABLE_NAME: "pokemon-list-dev"
+    infraName: softtek-infra-dev
   esbuild:
     bundle: true
     minify: false
@@ -47,12 +45,23 @@ provider:
   apiGateway:
     minimumCompressionSize: 1024
     shouldStartNameWithService: true
+  tracing:
+    lambda: true
+    apiGateway: true
   environment:
     region: ${self:custom.${opt:stage}.region}
     BASE_URL_API_SWAPI: ${self:custom.${opt:stage}.BASE_URL_API_SWAPI}
     BASE_URL_API_POKEAPI: ${self:custom.${opt:stage}.BASE_URL_API_POKEAPI}
-    MERGED_TABLE_NAME: ${self:custom.${opt:stage}.MERGED_TABLE_NAME}
-    POKEMON_TABLE_NAME: ${self:custom.${opt:stage}.POKEMON_TABLE_NAME}
+    MERGED_TABLE_NAME:
+      Fn::ImportValue: ${self:custom.infra}-MergedTableName
+    POKEMON_TABLE_NAME:
+      Fn::ImportValue: ${self:custom.infra}-PokemonTableName
+    HISTORY_TABLE_NAME:
+      Fn::ImportValue: ${self:custom.infra}-HistoryTableName
+    SEARCHED_TOPIC_ARN: 
+      Fn::ImportValue: ${self:custom.infra}-NotifySearchedTopic
+    REDIS_HOST: "sor1koyi0fbimm2e-001.stinj1.0001.use1.cache.amazonaws.com:6379"
+      # Fn::ImportValue: ${self:custom.infra}-RedisClusterEndpoint 
 
 layers:
   Merged:
@@ -65,3 +74,4 @@ functions:
   - ${file(./src/functions/getMerged/index.yml)}
   - ${file(./src/functions/postMerged/index.yml)}
   - ${file(./src/functions/getHistory/index.yml)}
+  - ${file(./src/functions/snsHistory/index.yml)}

@@ -1,23 +1,13 @@
-import { DynamoDB } from "@aws-sdk/client-dynamodb"
-import { DynamoDBDocument } from "@aws-sdk/lib-dynamodb"
 import { PokemonModel } from "../models"
+import { Repository } from "./repository"
 
-const marshallOptions = {
-  // Whether to remove undefined values while marshalling.
-  removeUndefinedValues: true // false, by default.
-}
-
-const translateConfig = { marshallOptions }
-
-const dbClient = new DynamoDB({})
-const db = DynamoDBDocument.from(dbClient, translateConfig)
-
-class PokemonRepository {
+class PokemonRepository extends Repository{
 
   static PartitionKey = "id"
   static TableName = process.env.POKEMON_TABLE_NAME
 
   constructor (){
+    super()
   }
 
   async save (model: PokemonModel) : Promise<PokemonModel> {
@@ -26,7 +16,7 @@ class PokemonRepository {
       TableName: PokemonRepository.TableName
     }
 
-    await db.put(params)
+    await this.database.put(params)
     return model
   }
 

@@ -1,24 +1,14 @@
-import { DynamoDB } from "@aws-sdk/client-dynamodb"
-import { DynamoDBDocument } from "@aws-sdk/lib-dynamodb"
 import { MergedModel } from "../models"
+import { Repository } from "./repository"
 import moment from "moment"
 
-const marshallOptions = {
-  // Whether to remove undefined values while marshalling.
-  removeUndefinedValues: true // false, by default.
-}
-
-const translateConfig = { marshallOptions }
-
-const dbClient = new DynamoDB({})
-const db = DynamoDBDocument.from(dbClient, translateConfig)
-
-class MergedRepository {
+class MergedRepository extends Repository {
 
   static PartitionKey = "name"
   static TableName = process.env.MERGED_TABLE_NAME
 
   constructor (){
+    super()
   }
 
   async save (mergedModel: MergedModel) : Promise<MergedModel> {
@@ -27,7 +17,7 @@ class MergedRepository {
       TableName: MergedRepository.TableName
     }
 
-    await db.put(params)
+    await this.database.put(params)
     return mergedModel
   }
 
@@ -39,7 +29,7 @@ class MergedRepository {
       height: mergedModel.height,
       mass: mergedModel.mass,
       homeworld: mergedModel.homeworld,
-      createdAt: moment().format("YYYY-MM-DD HH:mm:ss"),
+      createdAt: moment().format("YYYY-MM-DDTHH:mm:ss.sssZ"),
       isMigrated: false
     }
   }
