@@ -19,6 +19,6 @@ const getMergedHandler: APIGatewayProxyHandlerV2 = async (event: any) => {
 }
 
 export const getMerged: APIGatewayProxyHandlerV2 = middy(getMergedHandler)
-                                                    .use(validationRequestMiddleware(ListMergedRequest))
-                                                    .use(errorHandlingMiddleware())
-                                                    .use(historyHandlingMiddleware())
+  .use(validationRequestMiddleware(ListMergedRequest))
+  .use(errorHandlingMiddleware())
+  .use(historyHandlingMiddleware())

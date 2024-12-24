@@ -17,5 +17,5 @@ const postMergedHandler: APIGatewayProxyHandlerV2 = async ( event: APIGatewayPro
 }
 
 export const postMerged: APIGatewayProxyHandlerV2 = middy(postMergedHandler)
-                                                      .use(validationRequestMiddleware(CreateMergedRequest))
-                                                      .use(errorHandlingMiddleware())
+  .use(validationRequestMiddleware(CreateMergedRequest))
+  .use(errorHandlingMiddleware())

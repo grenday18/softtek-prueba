@@ -4,7 +4,8 @@
   "description": "prueba técnica para postulacion a puesto backend node js aws a la empresa softtek - rimac seguros",
   "main": "index.ts",
   "scripts": {
-      "build": "tsc"
+    "build": "npm run check-install && tsc",
+    "check-install": "node -e \"require('fs').existsSync('node_modules') || require('child_process').execSync('npm install', { stdio: 'inherit' })\""
   },
   "keywords": [],
   "author": "",

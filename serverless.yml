@@ -51,11 +51,10 @@ provider:
     POKEMON_TABLE_NAME: ${self:custom.pokemonTableName}
     HISTORY_TABLE_NAME: ${self:custom.historyTableName}
     SEARCHED_TOPIC_ARN: !Ref NotifySearchedTopic
+    RATE_LIMIT_MINUTES: ${env:RATE_LIMIT_MINUTES}
+    RATE_LIMIT_MAX_COUNT: ${env:RATE_LIMIT_MAX_COUNT}
     REDIS_HOST: "sor1koyi0fbimm2e-001.stinj1.0001.use1.cache.amazonaws.com:6379"
       # Fn::ImportValue: ${AWS::StackName}-RedisClusterEndpoint 
-
-plugins:
-  - serverless-openapi-documentation
 
 resources:
   # Tables

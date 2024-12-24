@@ -4,9 +4,10 @@
   "description": "prueba técnica para postulacion a puesto backend node js aws a la empresa softtek - rimac seguros",
   "main": "index.js",
   "scripts": {
-    "deploy": "npm run build-layers && serverless deploy --stage dev",
+    "deploy": "npm run check-install && npm run build-layers && serverless deploy --stage dev",
     "build-layers": "cd ./layers/nodejs && npm run build && cd ../../",
-    "test": "jest --config jest.config.ts"
+    "test": "jest --config jest.config.ts",
+    "check-install": "node -e \"require('fs').existsSync('node_modules') || require('child_process').execSync('npm install', { stdio: 'inherit' })\""
   },
   "keywords": [],
   "author": "",

@@ -6,6 +6,7 @@ import { ApiGatewayHelper } from "@layer"
 import { HistoryService } from "@services"
 import middy from "@middy/core"
 import HistoryResponse from "@core/responses/historyResponse"
+import { rateLimitHandlingMiddleware } from "@core/middlewares/rateLimitMiddleware"
 
 
 const getHistoryHandler: APIGatewayProxyHandlerV2  = async (event: any) => {
@@ -22,5 +23,6 @@ const getHistoryHandler: APIGatewayProxyHandlerV2  = async (event: any) => {
 }
 
 export const getHistory: APIGatewayProxyHandlerV2 = middy(getHistoryHandler)
-                                                    .use(validationRequestMiddleware(ListHistoryRequest))
-                                                    .use(errorHandlingMiddleware())
+  .use(validationRequestMiddleware(ListHistoryRequest))
+  .use(rateLimitHandlingMiddleware())
+  .use(errorHandlingMiddleware())
