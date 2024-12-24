@@ -1,0 +1,63 @@
+schemas:
+  HistoryResponse:
+    type: object
+    properties:
+      requesterId:
+        type: string
+        description: The IP address of the requester
+      timestamp:
+        type: string
+        format: date-time
+        description: The timestamp of the request
+      userAgent:
+        type: string
+        description: The client/browser making the request
+      routeKey:
+        type: string
+        description: The route or endpoint accessed by the request
+      responseStatus:
+        type: integer
+        description: The status code of the response (200 for success)
+      responsePayload:
+        type: string
+        description: The response body, which is empty in this case
+        
+  MergedResponse:  
+    type: object
+    properties:
+      name:
+        type: string
+        description: Name of the character
+      gender:
+        type: string
+        description: Gender of the character
+      height:
+        type: number
+        format: float
+        description: Height of the character in centimeters
+      mass:
+        type: number
+        format: float
+        description: Weight of the character in kilograms
+      pokemons:
+        type: array
+        items:
+          $ref: '#/schemas/PokemonResponse'
+        description: List of pokemons associated with the character
+
+  PokemonResponse:
+    type: object
+    properties:
+      order:
+        type: number
+        description: The order in which the item appears
+      abilities:
+        type: array
+        items:
+          type: string
+        description: List of abilities associated with the item
+      types:
+        type: array
+        items:
+          type: string
+        description: List of types associated with the item

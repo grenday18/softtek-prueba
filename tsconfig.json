@@ -10,10 +10,22 @@
       "@layer": ["./layers/nodejs/dist"],
       "@core/*": ["./src/core/*"],
       "@utils": ["./src/utils"],
-      "@services": ["./src/services"]
+      "@services": ["./src/services"],
+      "@src/*": ["./src/*"]
     },
-    "types": ["lambda-aws"]
+    "types": ["node", "jest"]
   },
-  "include": ["src/**/*.ts", "layers/**/*.ts"],
-  "exclude": ["node_modules", "dist"]
+  "include": [
+    "src/**/*.ts", 
+    "layers/**/*.ts", 
+    "test/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules/**/*",
+    "dist/**/*",
+    ".serverless/**/*",
+    ".webpack/**/*",
+    "_warmup/**/*",
+    ".vscode/**/*"
+  ]
 }

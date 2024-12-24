@@ -1,0 +1,29 @@
+responses:
+  listHistory200:
+    description: Object of response for Lists of history 
+    content:
+      application/json:
+        message:
+          type: string
+          description: The message indicating the success of the request
+        data:
+          type: array
+          items:
+            $ref: 'schemas.yaml#/schemas/HistoryResponse'
+        examples:
+          listHistory200:
+            $ref: 'examples.yaml#/examples/listHistory200'
+  listMergeds200:
+    description: Object of response for Lists of mergeds 
+    content:
+      application/json:
+        message:
+          type: string
+          description: The message indicating the success of the request
+        data:
+          type: array
+          items:
+            $ref: 'schemas.yaml#/schemas/MergedResponse'
+        examples:
+          listHistory200:
+            $ref: 'examples.yaml#/examples/listHistory200'

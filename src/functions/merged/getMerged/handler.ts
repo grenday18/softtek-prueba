@@ -4,7 +4,7 @@ import MergedResponse from "@core/responses/mergedResponse"
 import { ApiGatewayHelper } from "@layer"
 import { MergedService } from "@services"
 import type { APIGatewayProxyHandlerV2 } from "aws-lambda"
-import middy from "middy"
+import middy from "@middy/core"
 
 
 const getMergedHandler: APIGatewayProxyHandlerV2 = async (event: any) => {

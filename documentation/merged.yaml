@@ -1,0 +1,16 @@
+components:
+  parameters:
+    $ref: 'references/parameters.yaml#/parameters'
+  responses:
+    $ref: 'references/responses.yaml#/responses'
+paths:
+  /merged:
+    get:
+      tags:
+        - Merged
+      description: End point that allowed obtaining mergeds lists
+      parameters:
+        - $ref: '#/components/parameters/page'
+      responses:
+        '200':
+          $ref: '#/components/responses/listMergeds200'

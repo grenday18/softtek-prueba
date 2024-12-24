@@ -1,5 +1,4 @@
 service: "softtek-test"
-frameworkVersion: "4"
 
 package:
   individually: true
@@ -9,12 +8,8 @@ custom:
   pokemonTableName: pokemon-list-${opt:stage}
   historyTableName: history-list-${opt:stage}
   dev:
-    BASE_URL_API_SWAPI: "https://swapi.py4e.com"
-    BASE_URL_API_POKEAPI: "https://pokeapi.co"
     region: us-east-1
   prod:
-    BASE_URL_API_SWAPI: "https://swapi.py4e.com"
-    BASE_URL_API_POKEAPI: "https://pokeapi.co"
     region: us-east-1
 
 layers:
@@ -50,14 +45,17 @@ provider:
     apiGateway: true
   environment:
     region: ${self:custom.${opt:stage}.region}
-    BASE_URL_API_SWAPI: ${self:custom.${opt:stage}.BASE_URL_API_SWAPI}
-    BASE_URL_API_POKEAPI: ${self:custom.${opt:stage}.BASE_URL_API_POKEAPI}
+    BASE_URL_API_SWAPI: ${env:BASE_URL_API_SWAPI}
+    BASE_URL_API_POKEAPI: ${env:BASE_URL_API_POKEAPI}
     MERGED_TABLE_NAME: ${self:custom.mergedTableName}
     POKEMON_TABLE_NAME: ${self:custom.pokemonTableName}
     HISTORY_TABLE_NAME: ${self:custom.historyTableName}
     SEARCHED_TOPIC_ARN: !Ref NotifySearchedTopic
     REDIS_HOST: "sor1koyi0fbimm2e-001.stinj1.0001.use1.cache.amazonaws.com:6379"
       # Fn::ImportValue: ${AWS::StackName}-RedisClusterEndpoint 
+
+plugins:
+  - serverless-openapi-documentation
 
 resources:
   # Tables
@@ -84,4 +82,4 @@ functions:
   - ${file(src/functions/history/snsHistory/index.yml)}
   - ${file(src/functions/merged/getMerged/index.yml)}
   - ${file(src/functions/merged/postMerged/index.yml)}
-  
+

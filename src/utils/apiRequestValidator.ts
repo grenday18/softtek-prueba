@@ -52,7 +52,6 @@ class ApiRequestValidator {
     for (const error of errors) {
       const exception = new Exception(error.message || "")
       if (!exception.code)
-        // Unknown error
         continue
 
       exceptions.push(exception)

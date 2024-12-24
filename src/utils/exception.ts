@@ -8,10 +8,9 @@ class Exception {
     constructor(value: string) {
       type ErrorKey = keyof typeof errors
       const error = errors[value as ErrorKey]
-  
-      this.httpStatusCode = error.httpStatusCode
-      this.code = error.code
-      this.message = error.messageES
+      this.httpStatusCode = error?.httpStatusCode || 500
+      this.code = error?.code || "500"
+      this.message = error?.messageES || value
     }
   }
   

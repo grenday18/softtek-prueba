@@ -1,0 +1,33 @@
+examples:
+  listHistory200:
+    summary: 200 ok
+    value:
+      message: "Request successful."
+      data:
+        - requesterId: "0.0.0.0"
+          timestamp: "2024-12-24T20:51:50.5050+00:00"
+          userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+          routeKey: "GET /api/v1/fusionados"
+          responseStatus: 200
+          responsePayload: ""
+    
+  listMerged200:
+    summary: 200 ok
+    value:
+      message: "Request successful."
+      data:
+        - name: "Luke Skywalker"
+          gender: "male"
+          height: 172
+          mass: 77
+          pokemons:
+            - id: 228
+              name: "houndour"
+              order: 329
+              abilities:
+                - "early-bird"
+                - "flash-fire"
+                - "unnerve"
+              types:
+                - "dark"
+                - "fire"

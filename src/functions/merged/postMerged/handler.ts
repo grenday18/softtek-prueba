@@ -4,7 +4,8 @@ import MergedResponse from "@core/responses/mergedResponse"
 import { CreateMergedRequest } from "@core/requests"
 import MergedModel from "@core/models/mergedModel"
 import { ApiGatewayHelper } from "@layer"
-import middy from "middy"
+import middy from "@middy/core"
+
 
 const postMergedHandler: APIGatewayProxyHandlerV2 = async ( event: APIGatewayProxyEventV2) => {
 

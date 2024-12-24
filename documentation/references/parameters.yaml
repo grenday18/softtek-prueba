@@ -1,0 +1,13 @@
+parameters:
+  page:
+    name: page
+    in: query
+    description: Indicates the page to query (default is 1)
+    schema:
+      type: integer
+  name:
+    name: name
+    in: query
+    description: Filter items category by name
+    schema:
+      type: string

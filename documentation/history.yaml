@@ -1,0 +1,16 @@
+components:
+  parameters:
+    $ref: 'references/parameters.yaml#/parameters'
+  responses:
+    $ref: 'references/responses.yaml#/responses'
+paths:
+  /history:
+    get:
+      tags:
+        - History
+      description: End point that allowed obtaining history lists
+      parameters:
+        - $ref: '#/components/parameters/page'
+      responses:
+        '200':
+          $ref: '#/components/responses/listHistory200'

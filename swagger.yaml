@@ -1,0 +1,12 @@
+openapi: '3.0.3'
+info: 
+  version: "1.0.0"
+  title: SOFTTEK API
+  description: This is the SOFTTEK API swagger for the application test
+
+paths:
+  /historial:
+    $ref: "documentation/history.yaml#/paths/~1history"
+  /fusionados:
+    $ref: "documentation/merged.yaml#/paths/~1merged"
+
