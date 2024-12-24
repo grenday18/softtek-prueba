@@ -2,25 +2,18 @@
   "name": "softtek-prueba",
   "version": "1.0.0",
   "description": "prueba técnica para postulacion a puesto backend node js aws a la empresa softtek - rimac seguros",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
-    "deploy": "npm run build-layers && serverless deploy --stage dev",
-    "build-layers": "cd ./layers/nodejs && npm run build && cd ../../"
+      "build": "tsc"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.716.0",
-    "@types/node": "^22.10.2",
-    "ajv": "^8.17.1",
-    "ajv-errors": "^3.0.0",
+    "@aws-sdk/client-sns": "^3.716.0",
+    "@aws-sdk/lib-dynamodb": "^3.716.0",
     "axios": "^1.7.9",
-    "ioredis": "^5.4.2",
-    "middy": "^0.36.0",
     "moment": "^2.30.1"
-  },
-  "devDependencies": {
-    "@types/aws-lambda": "^8.10.146"
   }
 }

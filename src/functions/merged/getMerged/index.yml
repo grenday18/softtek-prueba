@@ -1,0 +1,13 @@
+GetMerged:
+  name: get-merged-${opt:stage}
+  layers:
+    - { Ref: SofttekLayerLambdaLayer }
+  role:
+    Fn::GetAtt: [ListMergedsRole, Arn]
+  events:
+    - httpApi:
+        method: get
+        path: /api/v1/fusionados
+  handler: ./src/functions/merged/getMerged/handler.getMerged
+  dependsOn:
+    - ListMergedsRole

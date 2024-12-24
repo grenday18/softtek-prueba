@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "commonjs",
+    "outDir": "dist",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "paths": {
+      "@layer": ["./layers/nodejs/dist"],
+      "@core/*": ["./src/core/*"],
+      "@utils": ["./src/utils"],
+      "@services": ["./src/services"]
+    },
+    "types": ["lambda-aws"]
+  },
+  "include": ["src/**/*.ts", "layers/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}

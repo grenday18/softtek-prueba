@@ -1,0 +1,47 @@
+Resources:
+  SofttekVpc:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsSupport: "true"
+      EnableDnsHostnames: "true"
+      Tags:
+        - Key: Name
+          Value: softtek-vpc
+
+  SofttekSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId:
+        Ref: SofttekVpc
+      CidrBlock: 10.0.1.0/24
+      AvailabilityZone: us-east-1a
+
+  SofttekSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId:
+        Ref: SofttekVpc
+      CidrBlock: 10.0.2.0/24
+      AvailabilityZone: us-east-1b
+
+  SofttekCacheSubnetGroup:
+    Type: AWS::ElastiCache::SubnetGroup
+    Properties:
+      SubnetIds:
+        - Ref: SofttekSubnet1
+        - Ref: SofttekSubnet2
+      CacheSubnetGroupName: softtek-cache-subnet-group
+      Description: Redis Subnet Group by Softtek
+
+  SofttekElastiCacheSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security group for ElastiCache
+      VpcId:
+          Ref: SofttekVpc
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '6379'
+          ToPort: '6379'
+          CidrIp: 0.0.0.0/0

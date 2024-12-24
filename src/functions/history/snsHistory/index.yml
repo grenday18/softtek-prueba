@@ -1,0 +1,14 @@
+SnsHistory:
+  name: sns-history-${opt:stage}
+  layers:
+    - { Ref: SofttekLayerLambdaLayer }
+  role:
+    Fn::GetAtt: [CreateHistoryRole, Arn]
+  events:
+    - sns:
+        arn: !Ref NotifySearchedTopic
+        topicName: notify-searched-${opt:stage}
+  handler: ./src/functions/history/snsHistory/handler.snsHistory
+  dependsOn:
+    - CreateHistoryRole
+    - NotifySearchedTopic

@@ -1,0 +1,87 @@
+service: "softtek-test"
+frameworkVersion: "4"
+
+package:
+  individually: true
+
+custom:
+  mergedTableName: merged-list-${opt:stage}
+  pokemonTableName: pokemon-list-${opt:stage}
+  historyTableName: history-list-${opt:stage}
+  dev:
+    BASE_URL_API_SWAPI: "https://swapi.py4e.com"
+    BASE_URL_API_POKEAPI: "https://pokeapi.co"
+    region: us-east-1
+  prod:
+    BASE_URL_API_SWAPI: "https://swapi.py4e.com"
+    BASE_URL_API_POKEAPI: "https://pokeapi.co"
+    region: us-east-1
+
+layers:
+  softtekLayer:
+    path: layers/nodejs
+    compatibleRuntimes:
+      - nodejs20.x
+    description: "Softtek shared layer"
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: us-east-1
+  timeout: 30
+  httpApi:
+    cors:
+      allowedOrigins: "*"
+      allowedHeaders:
+        - Content-Type
+        - Authorization
+        - X-Auth-Token
+        - X-Data-Source
+      allowedMethods:
+        - OPTIONS
+        - GET
+        - POST
+      maxAge: 6000 # In seconds
+  apiGateway:
+    minimumCompressionSize: 1024
+    shouldStartNameWithService: true
+  tracing:
+    lambda: true
+    apiGateway: true
+  environment:
+    region: ${self:custom.${opt:stage}.region}
+    BASE_URL_API_SWAPI: ${self:custom.${opt:stage}.BASE_URL_API_SWAPI}
+    BASE_URL_API_POKEAPI: ${self:custom.${opt:stage}.BASE_URL_API_POKEAPI}
+    MERGED_TABLE_NAME: ${self:custom.mergedTableName}
+    POKEMON_TABLE_NAME: ${self:custom.pokemonTableName}
+    HISTORY_TABLE_NAME: ${self:custom.historyTableName}
+    SEARCHED_TOPIC_ARN: !Ref NotifySearchedTopic
+    REDIS_HOST: "sor1koyi0fbimm2e-001.stinj1.0001.use1.cache.amazonaws.com:6379"
+      # Fn::ImportValue: ${AWS::StackName}-RedisClusterEndpoint 
+
+resources:
+  # Tables
+  - ${file(infrastructure/resources/tables/merged-table.yml)}
+  - ${file(infrastructure/resources/tables/pokemon-table.yml)}
+  - ${file(infrastructure/resources/tables/history-table.yml)}
+  # Topics
+  - ${file(infrastructure/resources/topics/notify-searched-topic.yml)}
+  # Redis
+  #- ${file(infrastructure/resources/redis/redis.yml)}
+  # Policies
+  - ${file(infrastructure/iam/managed-policies.yml)}
+  # Roles
+  - ${file(infrastructure/iam/list-mergeds-role.yml)}
+  - ${file(infrastructure/iam/create-merged-role.yml)}
+  - ${file(infrastructure/iam/list-history-role.yml)}
+  - ${file(infrastructure/iam/create-history-role.yml)}
+  #clusters
+  - ${file(infrastructure/resources/vps/redis-vps.yml)}
+  - ${file(infrastructure/resources/clusters/redis-cluster.yml)}
+  
+functions:
+  - ${file(src/functions/history/getHistory/index.yml)}
+  - ${file(src/functions/history/snsHistory/index.yml)}
+  - ${file(src/functions/merged/getMerged/index.yml)}
+  - ${file(src/functions/merged/postMerged/index.yml)}
+  

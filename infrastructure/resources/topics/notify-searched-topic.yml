@@ -1,0 +1,6 @@
+Resources:
+  NotifySearchedTopic:
+    Type: AWS::SNS::Topic
+    Properties: 
+      TopicName: notify-searched-${opt:stage}
+    

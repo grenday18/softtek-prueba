@@ -1,0 +1,13 @@
+GetHistory:
+  name: get-history-${opt:stage}
+  layers:
+    - { Ref: SofttekLayerLambdaLayer }
+  role:
+    Fn::GetAtt: [ListHistoryRole, Arn]
+  events:
+    - httpApi:
+        method: get
+        path: /api/v1/historial
+  handler: ./src/functions/history/getHistory/handler.getHistory
+  dependsOn:
+    - ListHistoryRole

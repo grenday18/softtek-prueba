@@ -1,0 +1,13 @@
+PostMerged:
+  name: post-merged-${opt:stage}
+  layers:
+    - { Ref: SofttekLayerLambdaLayer }
+  role:
+    Fn::GetAtt: [CreateMergedRole, Arn]
+  events:
+    - httpApi:
+        method: post
+        path: /api/v1/almacenar
+  handler: ./src/functions/merged/postMerged/handler.postMerged
+  dependsOn:
+    - CreateMergedRole
