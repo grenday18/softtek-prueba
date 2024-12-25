@@ -1,18 +1,10 @@
 Resources:
-  SofttekElastiCacheCluster:
+  RedisCluster:
     Type: AWS::ElastiCache::CacheCluster
     Properties:
       CacheNodeType: cache.t3.micro
       Engine: redis
       NumCacheNodes: 1
-      CacheSubnetGroupName:
-        Ref: SofttekCacheSubnetGroup
+      CacheSubnetGroupName: { Ref: CacheSubnetGroup }
       VpcSecurityGroupIds:
-        - Ref: SofttekElastiCacheSecurityGroup
-      AutoMinorVersionUpgrade: true
-      CacheParameterGroupName: default.redis5.0
-      PreferredAvailabilityZone: us-east-1a
-      EngineVersion: 5.0.6
-      Tags:
-        - Key: Name
-          Value: SofttekElastiCacheCluster
+        - { Ref: LambdaSecurityGroup }

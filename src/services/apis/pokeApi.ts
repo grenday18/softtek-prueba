@@ -37,7 +37,7 @@ interface TypePokeDetail {
 class PokeApi extends Api {
 
   constructor() {
-    super(process.env.BASE_URL_API_POKEAPI || "")
+    super(process.env.BASE_URL_API_POKEAPI ?? "")
   }
 
   async getPokemonById(id: number) : Promise<Pokemon> {

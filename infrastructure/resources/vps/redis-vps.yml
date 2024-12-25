@@ -3,45 +3,129 @@ Resources:
     Type: AWS::EC2::VPC
     Properties:
       CidrBlock: 10.0.0.0/16
-      EnableDnsSupport: "true"
-      EnableDnsHostnames: "true"
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
       Tags:
         - Key: Name
-          Value: softtek-vpc
+          Value: LambdaVPC
 
-  SofttekSubnet1:
+  # Public Subnet for NAT Gateway
+  PublicSubnet:
     Type: AWS::EC2::Subnet
     Properties:
-      VpcId:
-        Ref: SofttekVpc
+      VpcId: { Ref: SofttekVpc }
       CidrBlock: 10.0.1.0/24
       AvailabilityZone: us-east-1a
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: PublicSubnet
 
-  SofttekSubnet2:
+  # Private Subnets
+  PrivateSubnet1:
     Type: AWS::EC2::Subnet
     Properties:
-      VpcId:
-        Ref: SofttekVpc
+      VpcId: { Ref: SofttekVpc }
       CidrBlock: 10.0.2.0/24
-      AvailabilityZone: us-east-1b
+      AvailabilityZone: us-east-1a
+      Tags:
+        - Key: Name
+          Value: PrivateSubnet1
 
-  SofttekCacheSubnetGroup:
-    Type: AWS::ElastiCache::SubnetGroup
+  PrivateSubnet2:
+    Type: AWS::EC2::Subnet
     Properties:
-      SubnetIds:
-        - Ref: SofttekSubnet1
-        - Ref: SofttekSubnet2
-      CacheSubnetGroupName: softtek-cache-subnet-group
-      Description: Redis Subnet Group by Softtek
+      VpcId: { Ref: SofttekVpc }
+      CidrBlock: 10.0.3.0/24
+      AvailabilityZone: us-east-1b
+      Tags:
+        - Key: Name
+          Value: PrivateSubnet2
 
-  SofttekElastiCacheSecurityGroup:
+  # Internet Gateway
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+
+  VPCGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: { Ref: SofttekVpc }
+      InternetGatewayId: { Ref: InternetGateway }
+
+  # NAT Gateway in Public Subnet
+  ElasticIp:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+
+  NatGateway:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      SubnetId: { Ref: PublicSubnet }
+      AllocationId: 
+        Fn::GetAtt:
+          - ElasticIp
+          - AllocationId
+
+  # Route Tables
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: { Ref: SofttekVpc }
+
+  PublicRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: { Ref: PublicRouteTable }
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: { Ref: InternetGateway }
+ 
+  PublicSubnetRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: { Ref: PublicSubnet }
+      RouteTableId: { Ref: PublicRouteTable }
+
+  PrivateRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: { Ref: SofttekVpc }
+
+  PrivateRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: { Ref: PrivateRouteTable }
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: { Ref: NatGateway }
+
+  PrivateSubnet1RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: { Ref: PrivateSubnet1 }
+      RouteTableId: { Ref: PrivateRouteTable }
+
+  PrivateSubnet2RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: { Ref: PrivateSubnet2 }
+      RouteTableId: { Ref: PrivateRouteTable }
+
+  # Lambda Security Group
+  LambdaSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupDescription: Security group for ElastiCache
-      VpcId:
-          Ref: SofttekVpc
+      GroupDescription: Access for Lambda and ElastiCache
+      VpcId: { Ref: SofttekVpc }
       SecurityGroupIngress:
         - IpProtocol: tcp
-          FromPort: '6379'
-          ToPort: '6379'
+          FromPort: 6379
+          ToPort: 6379
           CidrIp: 0.0.0.0/0
+
+  CacheSubnetGroup:
+    Type: AWS::ElastiCache::SubnetGroup
+    Properties:
+      Description: Subnet group for ElastiCache
+      SubnetIds:
+        - { Ref: PrivateSubnet1 }
+        - { Ref: PrivateSubnet2 }

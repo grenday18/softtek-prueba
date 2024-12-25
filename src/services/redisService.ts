@@ -1,4 +1,5 @@
 import MergedModel from '@core/models/mergedModel'
+import redisConfig from '@src/config/redisConfig'
 import Redis from 'ioredis'
 
 class RedisService {
@@ -8,11 +9,7 @@ class RedisService {
 
   constructor () {
     console.log(process.env.REDIS_HOST)
-    this.redis = new Redis({
-      host: process.env.REDIS_HOST,
-      port: 6379,
-      connectTimeout: 3000
-    })
+    this.redis = new Redis(redisConfig)
   }
 
   async saveMergeds(results: MergedModel[], page: number) {
@@ -29,12 +26,13 @@ class RedisService {
 
   async getMergeds(page: number) {
     try { 
+      console.log("intentando conexion...")
 
       const key = this.listMergedKey + "/" + page 
       const value =  await this.redis.get(key)
-      return JSON.parse(value || "")
-    
+      return JSON.parse(value ?? "")
     } catch {
+      console.log("connection with redis failed.")
       return null
     }
   }

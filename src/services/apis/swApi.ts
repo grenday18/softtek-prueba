@@ -32,7 +32,7 @@ interface SwApiSuccess {
 class SwApi extends Api {
 
   constructor() {
-    super(process.env.BASE_URL_API_SWAPI || "")
+    super(process.env.BASE_URL_API_SWAPI ?? "")
   }
 
   async getListSwPersons(page: number = 1) : Promise<SwPerson[]> {

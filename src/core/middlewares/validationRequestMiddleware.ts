@@ -4,7 +4,8 @@ import { ApiRequestValidator } from "@utils";
 const validationRequestMiddleware = (ValidatorClass: new (event: any) => ApiRequestValidator) => {
   return {
     before: async (handler: any) => {
-
+      console.log("validation middleware..")
+      
       const request = new ValidatorClass(handler.event)
       if (!request.validate()) {
         const response = ApiGatewayHelper.formatJSONResponseError(request.formatErrorsToResponse())

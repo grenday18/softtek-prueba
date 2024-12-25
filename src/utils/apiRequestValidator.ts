@@ -26,7 +26,7 @@ class ApiRequestValidator {
     this.pathParams = event.pathParameters ?? {}
     this.queryParams = event.queryStringParameters ?? {}
     try {
-      this.body = JSON.parse(event?.body || "")
+      this.body = JSON.parse(event?.body ?? "")
     } catch {
       this.body = null
     }

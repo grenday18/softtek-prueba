@@ -14,5 +14,5 @@ export const statusCodeHelper = (statusCode: number): string => {
     504: "Gateway timeout. The server took too long to respond.",
   };
 
-  return messages[statusCode] || "An unexpected error occurred.";
+  return messages[statusCode] ?? "An unexpected error occurred.";
 }

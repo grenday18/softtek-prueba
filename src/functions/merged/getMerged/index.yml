@@ -8,9 +8,12 @@ GetMerged:
     - httpApi:
         method: get
         path: /api/v1/fusionados
-        documentation:
-          summary: "Hello World endpoint"
-          description: "A simple endpoint to return a greeting"
   handler: ./src/functions/merged/getMerged/handler.getMerged
   dependsOn:
     - ListMergedsRole
+  vpc:
+    securityGroupIds:
+      - { Ref: LambdaSecurityGroup }
+    subnetIds:
+      - { Ref: PrivateSubnet1 }
+      - { Ref: PrivateSubnet2 }

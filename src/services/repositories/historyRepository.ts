@@ -5,6 +5,7 @@ import { Repository } from "@layer"
 class HistoryRepository  extends Repository{
   
   static PartitionKey = "requesterId"
+  static SortKey = "timestamp"
   static TableName = process.env.HISTORY_TABLE_NAME
   
   constructor () {
@@ -53,23 +54,28 @@ class HistoryRepository  extends Repository{
   async countRequestsByRequesterId(requesterId: string, timestampLimit: string) : Promise<number> 
   {
     const params: any = {
-      TableName: 'RequestsTable',
-      KeyConditionExpression: 'requesterId = :requesterId AND timestamp >= :timestampLimit',
+      TableName: HistoryRepository.TableName,
+      KeyConditionExpression: '#pk = :pkValue AND #timestamp >= :timestampLimit',
+      ExpressionAttributeNames: {
+        "#pk": HistoryRepository.PartitionKey,
+        "#timestamp": HistoryRepository.SortKey
+      },
       ExpressionAttributeValues: {
-        ':requesterId': requesterId,
+        ":pkValue": requesterId,
         ':timestampLimit': timestampLimit,
       },
-      ProjectionExpression: 'requesterId',
       Select: 'COUNT',
-    };
+    }
   
     let count = 0;
     let lastEvaluatedKey = null;
   
     do {
-      const result = await this.database.query(params).promise()
+      
+      console.log("consultar query...")
+      const result = await this.database.query(params)
 
-      count += result.Count
+      count += (result?.Count ?? 0)
       lastEvaluatedKey = result.LastEvaluatedKey;
       if (lastEvaluatedKey) params['ExclusiveStartKey'] = lastEvaluatedKey
 

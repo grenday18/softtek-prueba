@@ -10,8 +10,8 @@ class AuthService {
 
   constructor () {
     this.repository = new HistoryRepository
-    this.RATE_LIMIT_MINUTES = parseInt(process.env.RATE_LIMIT_MINUTES || "15")
-    this.RATE_LIMIT_MAX_COUNT = parseInt(process.env.RATE_LIMIT_MINUTES || "100")
+    this.RATE_LIMIT_MINUTES = parseInt(process.env.RATE_LIMIT_MINUTES ?? "15")
+    this.RATE_LIMIT_MAX_COUNT = parseInt(process.env.RATE_LIMIT_MINUTES ?? "100")
   }
 
   async checkRateLimit (requesterId: string) : Promise<boolean> {

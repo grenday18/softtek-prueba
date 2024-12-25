@@ -5,11 +5,13 @@ import { ApiGatewayHelper } from "@layer"
 import { MergedService } from "@services"
 import type { APIGatewayProxyHandlerV2 } from "aws-lambda"
 import middy from "@middy/core"
+import { rateLimitHandlingMiddleware } from "@core/middlewares/rateLimitMiddleware"
 
 
 const getMergedHandler: APIGatewayProxyHandlerV2 = async (event: any) => {
   
   const page = event.queryParams?.page || 1
+  console.log("iniciando handler...")
   
   const mapper = new MergedService()
   const result = await mapper.getMergedsList(page)
@@ -20,5 +22,6 @@ const getMergedHandler: APIGatewayProxyHandlerV2 = async (event: any) => {
 
 export const getMerged: APIGatewayProxyHandlerV2 = middy(getMergedHandler)
   .use(validationRequestMiddleware(ListMergedRequest))
+  .use(rateLimitHandlingMiddleware())
   .use(errorHandlingMiddleware())
   .use(historyHandlingMiddleware())

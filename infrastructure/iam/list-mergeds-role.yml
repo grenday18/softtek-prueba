@@ -17,4 +17,5 @@ Resources:
         - { Ref: QueryDynamoDB }
         - { Ref: LogsCloudWatch }
         - { Ref: SnsPublish }
+        - { Ref: UseVpc }
 

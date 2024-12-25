@@ -13,8 +13,8 @@ export default class MergedModel {
 	constructor(person: any) {
 		this.name = person.name
 		this.gender = person.gender
-		this.height = parseFloat(person.height) || 0
-		this.mass = parseFloat(person.mass) || 0
+		this.height = parseFloat(person.height) ?? 0
+		this.mass = parseFloat(person.mass) ?? 0
 		this.homeworld = person.homeworld
 	}
 
