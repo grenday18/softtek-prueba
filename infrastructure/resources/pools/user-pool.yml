@@ -1,0 +1,30 @@
+Resources:
+  UserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UserPoolName: softtek-user-pool
+      AutoVerifiedAttributes:
+        - email
+      MfaConfiguration: OFF
+      Policies:
+        PasswordPolicy:
+          MinimumLength: 6
+          RequireUppercase: false
+          RequireLowercase: false
+          RequireNumbers: false
+          RequireSymbols: false
+
+  UserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      ClientName: softtek-user-pool-client
+      UserPoolId:
+        Ref: UserPool
+      GenerateSecret: false
+      ExplicitAuthFlows: 
+        - ADMIN_NO_SRP_AUTH 
+        - USER_PASSWORD_AUTH 
+      # CallbackURLs:
+      #   - https://example.com/callback
+      # LogoutURLs:
+      #   - https://example.com/logout

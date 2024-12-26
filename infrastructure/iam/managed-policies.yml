@@ -103,3 +103,34 @@ Resources:
               - ec2:DescribeNetworkInterfaces
               - ec2:DeleteNetworkInterface
             Resource: '*'
+  CreateUserCognito:
+    Type: 'AWS::IAM::ManagedPolicy'
+    Properties:
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+            Effect: Allow
+            Action:
+              - cognito-idp:AdminCreateUser
+            Resource: '*'
+  ListUsersCognito:
+    Type: 'AWS::IAM::ManagedPolicy'
+    Properties:
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+            Effect: Allow
+            Action:
+              - cognito-idp:ListUsers
+            Resource: '*'
+  AdminInitiateAuth:
+    Type: 'AWS::IAM::ManagedPolicy'
+    Properties:
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+            Effect: Allow
+            Action:
+              - cognito-idp:AdminInitiateAuth
+              - execute-api:Invoke
+            Resource: '*'

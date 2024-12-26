@@ -13,11 +13,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-cognito-identity-provider": "^3.716.0",
     "@aws-sdk/client-dynamodb": "^3.716.0",
     "@middy/core": "^6.0.0",
     "@types/node": "^22.10.2",
     "ajv": "^8.17.1",
     "ajv-errors": "^3.0.0",
+    "amazon-cognito-identity-js": "^6.3.12",
     "axios": "^1.7.9",
     "ioredis": "^5.4.2",
     "moment": "^2.30.1"

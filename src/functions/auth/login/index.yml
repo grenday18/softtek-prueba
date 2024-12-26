@@ -1,0 +1,12 @@
+LoginUser:
+  name: login-user-${opt:stage}
+  layers:
+    - { Ref: SofttekLayerLambdaLayer }
+  role:
+    Fn::GetAtt: [LoginUserRole, Arn]
+  events:
+    - httpApi:
+        method: post
+        path: /api/v1/login
+          
+  handler: ./src/functions/auth/login/handler.login

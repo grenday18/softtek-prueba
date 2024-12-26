@@ -7,6 +7,10 @@ custom:
   mergedTableName: merged-list-${opt:stage}
   pokemonTableName: pokemon-list-${opt:stage}
   historyTableName: history-list-${opt:stage}
+  cognitoUserPoolId:
+    Ref: UserPool
+  cognitoUserPoolClientId: 
+    Ref: UserPoolClient
   dev:
     region: us-east-1
   prod:
@@ -25,18 +29,28 @@ provider:
   region: us-east-1
   timeout: 30
   httpApi:
+    authorizers:
+      softtekAuth:
+        type: jwt
+        identitySource: $request.header.Authorization
+        issuerUrl: !Sub https://cognito-idp.${self:provider.region}.amazonaws.com/${UserPool}
+        audience:
+          - softtek-audience
     cors:
-      allowedOrigins: "*"
-      allowedHeaders:
-        - Content-Type
-        - Authorization
-        - X-Auth-Token
-        - X-Data-Source
+      allowedOrigins: '*'
       allowedMethods:
         - OPTIONS
         - GET
         - POST
-      maxAge: 6000 # In seconds
+      allowedHeaders:
+        - Authorization
+        - Content-Type
+  logs: 
+    httpApi: true
+    restApi: true
+  iam:
+    role: provider-role-${opt:stage}
+
   apiGateway:
     minimumCompressionSize: 1024
     shouldStartNameWithService: true
@@ -58,6 +72,8 @@ provider:
       Fn::GetAtt:
       - RedisCluster
       - RedisEndpoint.Address
+    COGNITO_USER_POOL_ID: ${self:custom.cognitoUserPoolId}
+    COGNITO_USER_POOL_CLIENT_ID: ${self:custom.cognitoUserPoolClientId}
 
 resources:
   # Tables
@@ -66,8 +82,6 @@ resources:
   - ${file(infrastructure/resources/tables/history-table.yml)}
   # Topics
   - ${file(infrastructure/resources/topics/notify-searched-topic.yml)}
-  # Redis
-  #- ${file(infrastructure/resources/redis/redis.yml)}
   # Policies
   - ${file(infrastructure/iam/managed-policies.yml)}
   # Roles
@@ -75,13 +89,22 @@ resources:
   - ${file(infrastructure/iam/create-merged-role.yml)}
   - ${file(infrastructure/iam/list-history-role.yml)}
   - ${file(infrastructure/iam/create-history-role.yml)}
-  #clusters
+  - ${file(infrastructure/iam/create-default-user-role.yml)}
+  - ${file(infrastructure/iam/login-user-role.yml)}
+  - ${file(infrastructure/iam/provider-role.yml)}
+  # Clusters
   - ${file(infrastructure/resources/vps/redis-vps.yml)}
   - ${file(infrastructure/resources/clusters/redis-cluster.yml)}
+  # Pools
+  - ${file(infrastructure/resources/pools/user-pool.yml)}
+  # Triggers
+  - ${file(infrastructure/custom/create-default-user-custom.yml)}
   
 functions:
   - ${file(src/functions/history/getHistory/index.yml)}
   - ${file(src/functions/history/snsHistory/index.yml)}
   - ${file(src/functions/merged/getMerged/index.yml)}
   - ${file(src/functions/merged/postMerged/index.yml)}
+  - ${file(src/functions/auth/createUserDefault/index.yml)}
+  - ${file(src/functions/auth/login/index.yml)}
 

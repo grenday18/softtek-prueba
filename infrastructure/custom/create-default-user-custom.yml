@@ -1,0 +1,10 @@
+Resources:
+  CreateUserDefaultCustom:
+    Type: "AWS::CloudFormation::CustomResource"
+    Properties:
+      ServiceToken:
+        Fn::GetAtt: [CreateUserDefaultLambdaFunction, Arn]
+      UserPoolId: { Ref: UserPool }
+      DefaultEmail: ${env:USER_DEFAULT_EMAIL}
+      TempPassword: ${env:USER_DEFAULT_PASSWORD}
+      

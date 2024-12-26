@@ -8,6 +8,9 @@ GetHistory:
     - httpApi:
         method: get
         path: /api/v1/historial
+        # authorizer:
+        #   name: softtekAuth
+          
   handler: ./src/functions/history/getHistory/handler.getHistory
   dependsOn:
     - ListHistoryRole

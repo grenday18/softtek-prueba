@@ -1,0 +1,8 @@
+CreateUserDefault:
+  name: create-user-default-${opt:stage}
+  handler: ./src/functions/auth/createUserDefault/handler.createCognitoUser
+  memorySize: 128
+  timeout: 30
+  role:
+    Fn::GetAtt: [CreateDefaultUserRole, Arn]
+  events: []
